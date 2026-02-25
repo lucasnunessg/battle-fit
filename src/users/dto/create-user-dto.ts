@@ -9,6 +9,7 @@ export class CreateUserDto {
   phone: string;
 
   @IsString()
+  @IsOptional()
   address: string;
 
   @IsOptional()

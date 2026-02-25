@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Accounts } from '../accounts/account.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -14,9 +15,12 @@ export class User {
   @Column({ unique: true })
   phone: string;
 
-  @Column()
+  @Column({ default: 'America/Sao_Paulo' })
   timezone: string;
 
-  @Column()
+  @Column({ nullable: true })
   photoUrl: string;
+
+  @OneToOne(() => Accounts, (account) => account.user)
+  account: Accounts;
 }
