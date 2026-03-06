@@ -1,5 +1,4 @@
 import {
-  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -7,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Accounts } from './account.entity';
 import { Repository } from 'typeorm';
-import { CreateAccountDto } from './dto/create-account-dto';
 import { APIResponse } from './types/ApiResponse';
 import { UpdateAccount } from './dto/update-account';
 
@@ -42,27 +40,6 @@ export class AccountService {
     return {
       message: 'user found',
       data: account,
-    };
-  }
-
-  async create(
-    dto: CreateAccountDto,
-    email: string,
-    username: string,
-  ): Promise<APIResponse<Accounts>> {
-    const emailAndUsername = await this.accountRepo.findOne({
-      where: [{ username }, { email }],
-    });
-
-    if (emailAndUsername) {
-      throw new ConflictException('username or email already in use');
-    }
-
-    const user = this.accountRepo.create(dto);
-
-    return {
-      message: 'user created succefully',
-      data: user,
     };
   }
 
